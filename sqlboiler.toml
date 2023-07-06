@@ -1,0 +1,14 @@
+output   = "internal/dbmodels"
+no-tests = "true"
+no-hooks = "true"
+wipe = "true"
+add-soft-deletes="true"
+pkgname = "dbmodels"
+# The database connection information
+[psql]
+dbname = "go_lang"
+host = "localhost"
+user = "postgres"
+pass = "root"
+port = 5432
+sslmode = "disable"
