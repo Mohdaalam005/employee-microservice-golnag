@@ -1,0 +1,136 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "# Endpoints for employees\n\nemployee-Service:",
+    "title": "API.",
+    "version": "0.0.1"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "paths": {
+    "/employees": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "summary": "Returns The Employee By ID",
+        "operationId": "getEmployees"
+      },
+      "post": {
+        "tags": [
+          "employee"
+        ],
+        "summary": "Returns the employee ID",
+        "operationId": "createEmployee",
+        "parameters": [
+          {
+            "description": "create the employee",
+            "name": "employees",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmployeeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/EmployeeResponse"
+          }
+        }
+      }
+    },
+    "/employees/{employeeId}": {
+      "get": {
+        "tags": [
+          "employee"
+        ],
+        "summary": "Returns The Employee By ID",
+        "operationId": "getEmployee",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Get employee by ID",
+            "name": "employeeId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/getEmployeeResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "employee"
+        ],
+        "summary": "Returns The Employee By ID",
+        "operationId": "updateEmployee",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Get employee by ID",
+            "name": "employeeId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "create the employee",
+            "name": "employee",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmployeeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/getUpdateEmployeeResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "EmployeeRequest": {
+      "x-go-package": "github.com/mohdaalam005/internal/endpoints"
+    }
+  },
+  "responses": {
+    "EmployeeResponse": {
+      "description": "",
+      "headers": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "in body"
+        }
+      }
+    },
+    "getEmployeeResponse": {
+      "description": ""
+    },
+    "getEmployeesResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {}
+      }
+    },
+    "getUpdateEmployeeResponse": {
+      "description": ""
+    }
+  }
+}

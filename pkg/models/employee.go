@@ -6,6 +6,7 @@ import (
 )
 
 type Employee struct {
+	// in body
 	ID     int         `json:"id"`
 	Name   null.String `json:"name"`
 	Dob    null.String `json:"dob"`
@@ -22,6 +23,22 @@ func (e *Employee) MakeDbModel() dbmodels.Employee {
 	return model
 }
 
-type GetEmployeeResponse struct {
+type GetEmployeesResponse struct {
 	Employees dbmodels.EmployeeSlice
+}
+
+func (e *Employee) MakeModels(slice *dbmodels.EmployeeSlice) []Employee {
+	employeeSlice := make([]Employee, len(*slice))
+
+	for i, portal := range employeeSlice {
+		employee := Employee{
+			ID:     portal.ID,
+			Name:   portal.Name,
+			Dob:    portal.Dob,
+			Gender: portal.Gender,
+			// Assign other fields accordingly
+		}
+		employeeSlice[i] = employee
+	}
+	return employeeSlice
 }

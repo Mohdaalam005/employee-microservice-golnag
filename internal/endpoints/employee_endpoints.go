@@ -49,8 +49,16 @@ func makeUpdateEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 			Gender: req.Gender,
 			Dob:    req.Dob,
 		})
-		return res, nil
+		return getUpdateEmployeeResponse{
+			Employee: res,
+		}, nil
 	}
+}
+
+// swagger:response getUpdateEmployeeResponse
+type getUpdateEmployeeResponse struct {
+	// in : body
+	Employee *models.Employee
 }
 
 func makeGetEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
@@ -65,8 +73,19 @@ func makeGetEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return res, nil
+		return getEmployeeResponse{
+			Employee: res}, nil
 	}
+}
+
+type EmployeeId struct {
+	ID int `json:"id"`
+}
+
+// swagger:response getEmployeeResponse
+type getEmployeeResponse struct {
+	// in : body
+	Employee models.Employee
 }
 
 func makeGetEmployeesEndpoint(s service.EmployeeService) endpoint.Endpoint {
@@ -75,6 +94,12 @@ func makeGetEmployeesEndpoint(s service.EmployeeService) endpoint.Endpoint {
 		log.Println("makeGetEmployeesEndpoint()..>.>.>")
 		return students, nil
 	}
+}
+
+// swagger:response getEmployeesResponse
+type getEmployeesResponse struct {
+	// in : body
+	employees []models.Employee
 }
 
 func makeEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
@@ -94,7 +119,7 @@ func makeEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 	}
 }
 
-// swagger : model EmployeeRequest
+// swagger:model EmployeeRequest
 type EmployeeRequest struct {
 	ID     int         `json:"id"`
 	Name   null.String `json:"name"`
@@ -102,10 +127,8 @@ type EmployeeRequest struct {
 	Gender null.String `json:"gender"`
 }
 
+// swagger:response EmployeeResponse
 type EmployeeResponse struct {
+	// in body
 	Id int `json:"id"`
-}
-
-type EmployeeId struct {
-	ID int `json:"id"`
 }

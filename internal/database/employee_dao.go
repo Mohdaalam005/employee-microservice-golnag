@@ -101,7 +101,7 @@ func NewEmployeeDao(db sql.DB) EmployeeDao {
 }
 
 type (
-	// PortalSlice is an alias for a slice of pointers to Portal.
-	// This should almost always be used instead of []Portal.
-	PortalSlice []*dbmodels.Employee
+	// EmployeeSlice is an alias for a slice of pointers to Employee.
+	// This should almost always be used instead of []Employee.
+	EmployeeSlice []*dbmodels.Employee
 )

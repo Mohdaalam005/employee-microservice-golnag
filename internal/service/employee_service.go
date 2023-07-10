@@ -10,7 +10,7 @@ import (
 
 type EmployeeService interface {
 	CreateEmployee(ctx context.Context, employee models.Employee) (*models.Employee, error)
-	GetEmployees(ctx context.Context) (models.GetEmployeeResponse, error)
+	GetEmployees(ctx context.Context) (models.GetEmployeesResponse, error)
 	GetEmployee(ctx context.Context, id int) (models.Employee, error)
 	UpdateEmployee(ctx context.Context, id int, employee models.Employee) (*models.Employee, error)
 	DeleteEmployee(ctx context.Context, id int) error
@@ -72,14 +72,13 @@ func (e employeeServiceImp) CreateEmployee(ctx context.Context, employee models.
 	}, nil
 
 }
-
-func (e employeeServiceImp) GetEmployees(ctx context.Context) (models.GetEmployeeResponse, error) {
+func (e employeeServiceImp) GetEmployees(ctx context.Context) (models.GetEmployeesResponse, error) {
 	//TODO implement me
 	student, err := e.dao.GetEmployees(ctx)
 	if err != nil {
-		return models.GetEmployeeResponse{}, err
+		return models.GetEmployeesResponse{}, err
 	}
-	return models.GetEmployeeResponse{
+	return models.GetEmployeesResponse{
 		Employees: student,
 	}, nil
 
