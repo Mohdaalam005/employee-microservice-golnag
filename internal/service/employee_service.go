@@ -10,7 +10,7 @@ import (
 
 type EmployeeService interface {
 	CreateEmployee(ctx context.Context, employee models.Employee) (*models.Employee, error)
-	GetEmployees(ctx context.Context) (models.GetEmployeesResponse, error)
+	GetEmployees(ctx context.Context) ([]models.Employee, error)
 	GetEmployee(ctx context.Context, id int) (models.Employee, error)
 	UpdateEmployee(ctx context.Context, id int, employee models.Employee) (*models.Employee, error)
 	DeleteEmployee(ctx context.Context, id int) error
@@ -21,7 +21,12 @@ type employeeServiceImp struct {
 }
 
 func (e employeeServiceImp) DeleteEmployee(ctx context.Context, id int) error {
-	err := e.dao.DeleteEmployee(ctx, id)
+	_, err := e.dao.GetEmployee(ctx, id)
+	if err != nil {
+		errors.New("id is not present")
+		return nil
+	}
+	e.dao.DeleteEmployee(ctx, id)
 	if err != nil {
 		errors.New("failed to delete")
 	}
@@ -72,15 +77,24 @@ func (e employeeServiceImp) CreateEmployee(ctx context.Context, employee models.
 	}, nil
 
 }
-func (e employeeServiceImp) GetEmployees(ctx context.Context) (models.GetEmployeesResponse, error) {
-	//TODO implement me
-	student, err := e.dao.GetEmployees(ctx)
+func (e employeeServiceImp) GetEmployees(ctx context.Context) ([]models.Employee, error) {
+	var employees []models.Employee
+	emp, err := e.dao.GetEmployees(ctx)
 	if err != nil {
-		return models.GetEmployeesResponse{}, err
+		return nil, err
 	}
-	return models.GetEmployeesResponse{
-		Employees: student,
-	}, nil
+	for _, portal := range emp {
+		employee := models.Employee{
+			ID:     portal.ID,
+			Name:   portal.Name,
+			Dob:    portal.Dob,
+			Gender: portal.Gender,
+		}
+		employees = append(employees, employee)
+
+	}
+
+	return employees, nil
 
 }
 

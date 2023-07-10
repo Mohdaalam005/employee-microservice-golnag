@@ -35,9 +35,16 @@ func makeDeleteEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 		if err != nil {
 			errors.New("not able to delete MakeDeleteEndpoint().......")
 		}
-		return req, nil
+		return deleteResponse{
+			ID: "deleted successfully ",
+		}, nil
 
 	}
+}
+
+// swagger:response deleteResponse
+type deleteResponse struct {
+	ID string
 }
 
 func makeUpdateEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
@@ -90,16 +97,18 @@ type getEmployeeResponse struct {
 
 func makeGetEmployeesEndpoint(s service.EmployeeService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
-		students, err := s.GetEmployees(ctx)
+		employees, err := s.GetEmployees(ctx)
 		log.Println("makeGetEmployeesEndpoint()..>.>.>")
-		return students, nil
+		return getEmployeesResponse{
+			Employees: employees,
+		}, nil
 	}
 }
 
 // swagger:response getEmployeesResponse
 type getEmployeesResponse struct {
 	// in : body
-	employees []models.Employee
+	Employees []models.Employee
 }
 
 func makeCreateEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
@@ -114,7 +123,9 @@ func makeCreateEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 			Gender: req.Gender,
 			Dob:    req.Dob,
 		})
-		return res, nil
+		return EmployeeResponse{
+			Id: res.ID,
+		}, nil
 
 	}
 }

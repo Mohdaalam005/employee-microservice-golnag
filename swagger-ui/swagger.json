@@ -123,7 +123,7 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "$ref": "#/responses/deleteResponse"
           }
         }
       }
@@ -142,6 +142,14 @@
           "type": "integer",
           "format": "int64",
           "description": "in body"
+        }
+      }
+    },
+    "deleteResponse": {
+      "description": "",
+      "headers": {
+        "ID": {
+          "type": "string"
         }
       }
     },

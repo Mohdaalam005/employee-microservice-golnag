@@ -27,8 +27,8 @@ type GetEmployeesResponse struct {
 	Employees dbmodels.EmployeeSlice
 }
 
-func (e *Employee) MakeModels(slice *dbmodels.EmployeeSlice) []Employee {
-	employeeSlice := make([]Employee, len(*slice))
+func (e *Employee) MakeModels(slice dbmodels.EmployeeSlice) []Employee {
+	employeeSlice := make([]Employee, len(slice))
 
 	for i, portal := range employeeSlice {
 		employee := Employee{

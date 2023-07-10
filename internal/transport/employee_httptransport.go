@@ -13,7 +13,7 @@ import (
 	"strconv"
 )
 
-func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeEndpoints, route *mux.Router) http.Handler {
+func EmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeEndpoints, route *mux.Router) http.Handler {
 
 	// swagger:operation GET /employees employee getAllEmployee
 	// ---
@@ -96,6 +96,7 @@ func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeE
 	//   required: true
 	// responses:
 	//   "200":
+	//     "$ref": "#/responses/deleteResponse"
 	route.Methods("DELETE").Path("/employees/{employeeId}").Handler(httptransport.NewServer(
 		endpoint.DeleteEmployee,
 		decodeDeleteEmployee,

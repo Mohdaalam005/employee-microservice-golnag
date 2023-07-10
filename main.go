@@ -50,7 +50,7 @@ func main() {
 	srv := service.NewEmployeeService(dao)
 	end := endpoints.MakeEmployeeEndpoints(srv)
 
-	transport.CreateEmployeeHttpHandler(ctx, end, route)
+	transport.EmployeeHttpHandler(ctx, end, route)
 
 	startServer(route)
 
