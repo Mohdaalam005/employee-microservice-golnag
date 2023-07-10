@@ -15,6 +15,12 @@ import (
 
 func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeEndpoints, route *mux.Router) http.Handler {
 
+	// swagger:operation GET /employees employee getAllEmployee
+	// ---
+	// summary: Returns the employees
+	// responses:
+	//   "200":
+	//     "$ref": "#/responses/getEmployeesResponse"
 	route.Methods("GET").Path("/employees").Handler(httptransport.NewServer(
 		endpoint.GetEmployees,
 		decodeGetEmployees,
@@ -22,7 +28,7 @@ func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeE
 	))
 	// swagger:operation POST /employees employee createEmployee
 	// ---
-	// summary: Returns the employee ID
+	// summary: Returns The Created Employee
 	// parameters:
 	// - name: employees
 	//   in: body
@@ -57,7 +63,7 @@ func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeE
 	))
 	// swagger:operation PUT /employees/{employeeId} employee updateEmployee
 	// ---
-	// summary: Returns The Employee By ID
+	// summary: Update Employee By ID
 	// parameters:
 	// - name: employeeId
 	//   in: path
@@ -78,6 +84,18 @@ func CreateEmployeeHttpHandler(ctx context.Context, endpoint endpoints.EmployeeE
 		decodeUpdateEmployee,
 		encodeResponse,
 	))
+
+	// swagger:operation DELETE /employees/{employeeId} employee deleteEmployee
+	// ---
+	// summary: Delete Employee By ID
+	// parameters:
+	// - name: employeeId
+	//   in: path
+	//   description: Get employee by ID
+	//   type: string
+	//   required: true
+	// responses:
+	//   "200":
 	route.Methods("DELETE").Path("/employees/{employeeId}").Handler(httptransport.NewServer(
 		endpoint.DeleteEmployee,
 		decodeDeleteEmployee,

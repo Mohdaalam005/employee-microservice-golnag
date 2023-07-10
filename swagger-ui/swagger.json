@@ -22,14 +22,19 @@
         "tags": [
           "employee"
         ],
-        "summary": "Returns The Employee By ID",
-        "operationId": "getEmployees"
+        "summary": "Returns the employees",
+        "operationId": "getAllEmployee",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/getEmployeesResponse"
+          }
+        }
       },
       "post": {
         "tags": [
           "employee"
         ],
-        "summary": "Returns the employee ID",
+        "summary": "Returns The Created Employee",
         "operationId": "createEmployee",
         "parameters": [
           {
@@ -75,7 +80,7 @@
         "tags": [
           "employee"
         ],
-        "summary": "Returns The Employee By ID",
+        "summary": "Update Employee By ID",
         "operationId": "updateEmployee",
         "parameters": [
           {
@@ -98,6 +103,27 @@
         "responses": {
           "200": {
             "$ref": "#/responses/getUpdateEmployeeResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "employee"
+        ],
+        "summary": "Delete Employee By ID",
+        "operationId": "deleteEmployee",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Get employee by ID",
+            "name": "employeeId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }

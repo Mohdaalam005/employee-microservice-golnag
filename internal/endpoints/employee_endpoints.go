@@ -20,7 +20,7 @@ type EmployeeEndpoints struct {
 
 func MakeEmployeeEndpoints(s service.EmployeeService) EmployeeEndpoints {
 	return EmployeeEndpoints{
-		CreateEmployee: makeEmployeeEndpoint(s),
+		CreateEmployee: makeCreateEmployeeEndpoint(s),
 		GetEmployees:   makeGetEmployeesEndpoint(s),
 		GetEmployee:    makeGetEmployeeEndpoint(s),
 		UpdateEmployee: makeUpdateEmployeeEndpoint(s),
@@ -102,7 +102,7 @@ type getEmployeesResponse struct {
 	employees []models.Employee
 }
 
-func makeEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
+func makeCreateEmployeeEndpoint(s service.EmployeeService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
 		req, ok := request.(EmployeeRequest)
 		if !ok {
