@@ -33,17 +33,21 @@ func (e employeeServiceImp) DeleteEmployee(ctx context.Context, id int) error {
 	return nil
 }
 
-func (e employeeServiceImp) UpdateEmployee(ctx context.Context, id int, employee models.Employee) (*models.Employee, error) {
-	emp, err := e.dao.UpdateEmployee(ctx, id, employee.MakeDbModel())
+func (e employeeServiceImp) UpdateEmployee(ctx context.Context, id int, employeeUpdate models.Employee) (*models.Employee, error) {
+	existingEmp, err := e.GetEmployee(ctx, id)
 	if err != nil {
 		errors.New("Service()..... unable to update")
 	}
-	return &models.Employee{
-		ID:     emp.ID,
-		Name:   emp.Name,
-		Dob:    emp.Dob,
-		Gender: emp.Gender,
-	}, nil
+	employee := existingEmp
+	employee.ID = employeeUpdate.ID
+	employee.Name = employeeUpdate.Name
+	employee.Dob = employeeUpdate.Dob
+	employee.Gender = employeeUpdate.Gender
+
+	empModel := employee.MakeDbModel()
+	returnEmp, err := e.dao.UpdateEmployee(ctx, empModel)
+	newEmp := models.MakeModelToDb(*returnEmp)
+	return &newEmp, nil
 
 }
 

@@ -27,6 +27,16 @@ type GetEmployeesResponse struct {
 	Employees dbmodels.EmployeeSlice
 }
 
+func MakeModelToDb(employee dbmodels.Employee) Employee {
+	return Employee{
+		ID:     employee.ID,
+		Name:   employee.Name,
+		Dob:    employee.Dob,
+		Gender: employee.Gender,
+	}
+
+}
+
 func (e *Employee) MakeModels(slice dbmodels.EmployeeSlice) []Employee {
 	employeeSlice := make([]Employee, len(slice))
 

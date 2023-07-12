@@ -11,7 +11,7 @@ import (
 
 type EmployeeDao interface {
 	CreateEmployee(ctx context.Context, employee dbmodels.Employee) (*dbmodels.Employee, error)
-	UpdateEmployee(ctx context.Context, id int, employee dbmodels.Employee) (*dbmodels.Employee, error)
+	UpdateEmployee(ctx context.Context, employee dbmodels.Employee) (*dbmodels.Employee, error)
 	GetEmployee(ctx context.Context, id int) (dbmodels.Employee, error)
 	GetEmployees(ctx context.Context) (dbmodels.EmployeeSlice, error)
 	DeleteEmployee(ctx context.Context, id int) error
@@ -31,26 +31,14 @@ func (e employeeImp) CreateEmployee(ctx context.Context, employee dbmodels.Emplo
 	return &employee, nil
 }
 
-func (e employeeImp) UpdateEmployee(ctx context.Context, id int, employee dbmodels.Employee) (*dbmodels.Employee, error) {
-	empById, err := dbmodels.FindEmployee(ctx, &e.DB, id)
+func (e employeeImp) UpdateEmployee(ctx context.Context, employee dbmodels.Employee) (*dbmodels.Employee, error) {
+	log.Println("Dao() update employee")
+	emp, err := employee.Update(ctx, &e.DB, boil.Infer())
 	if err != nil {
-		errors.New("employee is not present")
+		errors.New("Dao() failed to updated")
 	}
-	empById.ID = id
-	empById.Dob = employee.Dob
-	empById.Name = employee.Name
-	empById.Gender = employee.Gender
-	_, err = empById.Update(ctx, &e.DB, boil.Infer())
-
-	if err != nil {
-		errors.New("failed to updated")
-	}
-	return &dbmodels.Employee{
-		ID:     empById.ID,
-		Name:   empById.Name,
-		Dob:    empById.Dob,
-		Gender: empById.Gender,
-	}, nil
+	log.Println("updated the ", emp)
+	return &employee, err
 
 }
 
