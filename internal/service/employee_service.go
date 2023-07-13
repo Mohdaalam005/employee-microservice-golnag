@@ -87,12 +87,12 @@ func (e employeeServiceImp) GetEmployees(ctx context.Context) ([]models.Employee
 	if err != nil {
 		return nil, err
 	}
-	for _, portal := range emp {
+	for _, employee := range emp {
 		employee := models.Employee{
-			ID:     portal.ID,
-			Name:   portal.Name,
-			Dob:    portal.Dob,
-			Gender: portal.Gender,
+			ID:     employee.ID,
+			Name:   employee.Name,
+			Dob:    employee.Dob,
+			Gender: employee.Gender,
 		}
 		employees = append(employees, employee)
 
