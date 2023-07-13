@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	httptransport "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
-	"github.com/mohdaalam005/internal/dbmodels"
 	"github.com/mohdaalam005/internal/endpoints"
 	"io"
 	"log"
@@ -163,6 +162,5 @@ func encodeResponse(ctx context.Context, writer http.ResponseWriter, response in
 }
 
 func decodeGetEmployees(ctx context.Context, r *http.Request) (request1 interface{}, err error) {
-	var employee dbmodels.Employee
-	return employee, nil
+	return nil, nil
 }
