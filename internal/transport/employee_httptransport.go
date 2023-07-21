@@ -150,9 +150,11 @@ func decodeGetEmployee(ctx context.Context, request2 *http.Request) (request int
 }
 
 func decodeCreateEmployee(ctx context.Context, request2 *http.Request) (request interface{}, err error) {
+
 	var employee endpoints.EmployeeRequest
-	json.NewDecoder(request2.Body).Decode(&employee)
-	log.Println("decode()", employee)
+	body, err := io.ReadAll(request2.Body)
+	err = json.Unmarshal(body, &employee)
+	log.Println("decode()", body)
 	return employee, err
 }
 
