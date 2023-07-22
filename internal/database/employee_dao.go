@@ -2,8 +2,8 @@ package database
 
 import (
 	"context"
-	"database/sql"
 	"github.com/friendsofgo/errors"
+	database2 "github.com/mohdaalam005/go-common/database"
 	"github.com/mohdaalam005/internal/dbmodels"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"log"
@@ -18,12 +18,12 @@ type EmployeeDao interface {
 }
 
 type employeeImp struct {
-	DB sql.DB
+	DB database2.DbConnection
 }
 
 func (e employeeImp) CreateEmployee(ctx context.Context, employee dbmodels.Employee) (*dbmodels.Employee, error) {
 	log.Println("dao() created employee")
-	err := employee.Insert(ctx, &e.DB, boil.Infer())
+	err := employee.Insert(ctx, e.DB.Conn, boil.Infer())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,7 +33,7 @@ func (e employeeImp) CreateEmployee(ctx context.Context, employee dbmodels.Emplo
 
 func (e employeeImp) UpdateEmployee(ctx context.Context, employee dbmodels.Employee) (*dbmodels.Employee, error) {
 	log.Println("Dao() update employee")
-	emp, err := employee.Update(ctx, &e.DB, boil.Infer())
+	emp, err := employee.Update(ctx, e.DB.Conn, boil.Infer())
 	if err != nil {
 		errors.New("Dao() failed to updated")
 	}
@@ -44,7 +44,7 @@ func (e employeeImp) UpdateEmployee(ctx context.Context, employee dbmodels.Emplo
 
 func (e employeeImp) GetEmployee(ctx context.Context, id int) (dbmodels.Employee, error) {
 	log.Println("GetEmployee() dao.............")
-	employee, err := dbmodels.FindEmployee(ctx, &e.DB, id)
+	employee, err := dbmodels.FindEmployee(ctx, e.DB.Conn, id)
 
 	log.Println(employee, " record", id)
 	if err != nil {
@@ -65,7 +65,7 @@ func (e employeeImp) GetEmployee(ctx context.Context, id int) (dbmodels.Employee
 }
 
 func (e employeeImp) GetEmployees(ctx context.Context) (dbmodels.EmployeeSlice, error) {
-	employees, err := dbmodels.Employees().All(ctx, &e.DB)
+	employees, err := dbmodels.Employees().All(ctx, e.DB.Conn)
 	if err != nil {
 		return nil, err
 	}
@@ -74,15 +74,15 @@ func (e employeeImp) GetEmployees(ctx context.Context) (dbmodels.EmployeeSlice, 
 }
 
 func (e employeeImp) DeleteEmployee(ctx context.Context, id int) error {
-	emp, err := dbmodels.FindEmployee(ctx, &e.DB, id)
+	emp, err := dbmodels.FindEmployee(ctx, e.DB.Conn, id)
 	if err != nil {
 		return err
 	}
-	emp.Delete(ctx, &e.DB)
+	emp.Delete(ctx, e.DB.Conn)
 	return nil
 }
 
-func NewEmployeeDao(db sql.DB) EmployeeDao {
+func NewEmployeeDao(db database2.DbConnection) EmployeeDao {
 	return &employeeImp{
 		DB: db,
 	}

@@ -51,8 +51,18 @@ func (e employeeServiceImp) UpdateEmployee(ctx context.Context, id int, employee
 
 }
 
+//type Response struct {
+//	Id     int    `json:"id"`
+//	Name   string `json:"name"`
+//	Gender string `json:"gender"`
+//}
+
 func (e employeeServiceImp) GetEmployee(ctx context.Context, id int) (models.Employee, error) {
 	employee, err := e.dao.GetEmployee(ctx, id)
+	//client := rest.NewClient(http.DefaultClient)
+	//var data []Response
+	//client.Get(ctx, "http://localhost:9090/students", nil, &data)
+	//log.Println(data, ">>>>>>>>>>>>>>>>>>>>>>>>>>")
 	log.Println("GetEmloyee(id)", employee, id)
 	if err != nil {
 		return models.Employee{}, errors.New("id is not present")

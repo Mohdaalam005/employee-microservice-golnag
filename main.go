@@ -20,10 +20,10 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+	database2 "github.com/mohdaalam005/go-common/database"
 	"github.com/mohdaalam005/internal/database"
 	"github.com/mohdaalam005/internal/endpoints"
 	"github.com/mohdaalam005/internal/service"
@@ -33,9 +33,16 @@ import (
 )
 
 func main() {
-	dsn := "dbname='go_lang' host='localhost' user='postgres' password='root' sslmode=disable"
-	db, err := sql.Open("postgres", dsn)
-	log.Println("application has been started")
+
+	dbConfig := database2.DbConfig{
+		Host:   "localhost",
+		Port:   5432,
+		User:   "postgres",
+		Pass:   "root",
+		DbName: "go_lang",
+	}
+	dbConn, err := database2.InitDatabase(dbConfig)
+
 	defer log.Println("application has been closed")
 	if err != nil {
 		log.Println(err)
@@ -46,7 +53,7 @@ func main() {
 		Handler(http.StripPrefix("/swagger-ui", fs))
 
 	ctx := context.Background()
-	dao := database.NewEmployeeDao(*db)
+	dao := database.NewEmployeeDao(dbConn)
 	srv := service.NewEmployeeService(dao)
 	end := endpoints.MakeEmployeeEndpoints(srv)
 
